@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 # Constants
 DB_PATH = "knowledge_base.db"
-SIMILARITY_THRESHOLD = 0.55  # Lowered threshold for better recall
+SIMILARITY_THRESHOLD = 0.52  # Lowered threshold for better recall
 MAX_RESULTS = 10  # Increased to get more context
 load_dotenv()
 MAX_CONTEXT_CHUNKS = 4  # Increased number of chunks per source
@@ -683,7 +683,11 @@ async def query_knowledge_base(request: QueryRequest):
             status_code=500,
             content={"error": error_msg}
         )
+from fastapi.responses import JSONResponse
 
+@app.get("/")
+def read_root():
+    return JSONResponse(content={"message": "Welcome to Virtual TA API. Use /query to ask questions."})
 # Health check endpoint
 @app.get("/health")
 async def health_check():
